@@ -1,0 +1,138 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Deployment &#8212; Fava 1.7-dev documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.7-dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Development" href="development.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="deployment">
+<h1>Deployment<a class="headerlink" href="#deployment" title="Permalink to this headline">¶</a></h1>
+<p>There are a number of deployment options for persistently running Fava on the
+Web, depending on your Web server and WSGI deployment choices. Below you can
+find some examples.</p>
+<div class="section" id="apache-with-reverse-proxy">
+<h2>Apache with reverse proxy<a class="headerlink" href="#apache-with-reverse-proxy" title="Permalink to this headline">¶</a></h2>
+<p>Apache configuration:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ProxyPass</span> <span class="s2">&quot;/fava&quot;</span> <span class="s2">&quot;http://localhost:5000/fava&quot;</span>
+</pre></div>
+</div>
+<p>The above will make Fava accessible at the <code class="docutils literal"><span class="pre">/fava</span></code> URL and proxy requests
+arriving there to a locally running Fava. To make Fava work properly in that
+context, you should run it using the <code class="docutils literal"><span class="pre">--prefix</span></code> command line option, like
+this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">fava</span> <span class="o">--</span><span class="n">prefix</span> <span class="o">/</span><span class="n">fava</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">your</span><span class="o">/</span><span class="n">main</span><span class="o">.</span><span class="n">beancount</span>
+</pre></div>
+</div>
+<p>To have Fava run automatically at boot and manageable as a system service you
+might want to define a systemd unit file for it, for example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">Unit</span><span class="p">]</span>
+<span class="n">Description</span><span class="o">=</span><span class="n">Fava</span> <span class="n">Web</span> <span class="n">UI</span> <span class="k">for</span> <span class="n">Beancount</span>
+
+<span class="p">[</span><span class="n">Service</span><span class="p">]</span>
+<span class="n">Type</span><span class="o">=</span><span class="n">simple</span>
+<span class="n">ExecStart</span><span class="o">=/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">fava</span> <span class="o">--</span><span class="n">host</span> <span class="n">localhost</span> <span class="o">--</span><span class="n">port</span> <span class="mi">5000</span> <span class="o">--</span><span class="n">prefix</span> <span class="o">/</span><span class="n">fava</span> <span class="o">/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">your</span><span class="o">/</span><span class="n">main</span><span class="o">.</span><span class="n">beancount</span>
+<span class="n">User</span><span class="o">=</span><span class="n">your</span><span class="o">-</span><span class="n">user</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<p class="logo">
+  <a href="index.html">
+    <img class="logo" src="_static/logo.png" alt="Logo"/>
+    
+    <h1 class="logo logo-name">Fava</h1>
+    
+  </a>
+</p>
+
+
+
+<p class="blurb">Web interface for <a href="http://furius.ca/beancount/"
+title="Double-entry bookkeeping software Beancount">Beancount</a></p>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#apache-with-reverse-proxy">Apache with reverse proxy</a></li>
+</ul>
+</li>
+</ul>
+
+
+<hr />
+<ul>
+    
+    <li class="toctree-l1"><a href="https://github.com/beancount/fava">fava @ Github</a></li>
+    
+    <li class="toctree-l1"><a href="https://github.com/beancount/fava/issues">Issue Tracker</a></li>
+    
+</ul>
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Dominik Aumayr.
+      
+      |
+      <a href="_sources/deployment.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
